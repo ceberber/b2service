@@ -1,0 +1,31 @@
+{
+  "id": "460a4560-613b-4247-a835-4ac2c946405f",
+  "name": "B2Service",
+  "publisher": "Default publisher",
+  "version": "19.0.0.0",
+  "brief": "",
+  "description": "",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "https://erpservices.ch",
+  "logo": "./logo/logo.png",
+  "features": [ "TranslationFile",  "GenerateCaptions"  ],
+  "dependencies": [],
+  "screenshots": [],
+  "platform": "20.0.0.0",
+  "application": "20.0.0.0",
+  "idRanges": [
+    {
+      "from": 50100,
+      "to": 50149
+    }
+  ],
+  "contextSensitiveHelpUrl": "https://B2Service.com/help/",
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": false,
+    "includeSourceInSymbolFile": false
+  },
+  "runtime": "8.0"
+}
