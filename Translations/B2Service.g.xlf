@@ -423,6 +423,251 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report B2 Invoice - Control LogInteraction - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Report 2994084780 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>B2 Sales Shipment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 1694087509" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Billed to</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType BilledToLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 852687422" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Bill-to Address</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType BilltoAddressCaptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 1851005282" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Bill-to Contact E-Mail</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType BillToContactEmailLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 2423794985" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Bill-to Contact Mobile Phone No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType BillToContactMobilePhoneNoLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 24137681" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Bill-to Contact Phone No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType BillToContactPhoneNoLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 1908025102" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Thank you for your business. Your shipment is attached to this message.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType BodyLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 2771379227" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sincerely</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType ClosingLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 3280613231" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Account No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType CompanyInfoBankAccNoLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 3338143750" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Bank</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType CompanyInfoBankNameLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 1810908995" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Giro No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType CompanyInfoGiroNoLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 1970452706" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Phone No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType CompanyInfoPhoneNoLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 3701423681" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Copy</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType CopyLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 817831222" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Description</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType DescriptionCaptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 1198791402" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Email</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType EMailLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 901740384" size-unit="char" translate="yes" xml:space="preserve">
+          <source>From</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType FromLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 514421613" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Hello</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType GreetingLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 2184357828" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Unit Gross Weight</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType GrossWeightLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 1243851074" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Home Page</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType HomePageLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 1339423791" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Unit Net Weight</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType NetWeightLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 1292293871" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType NoCaptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 2491107794" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You must specify one or more filters to avoid accidently printing all documents.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType NoFilterSetErr</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 1326846744" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Our Document No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType OurDocumentNoLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 1877187315" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Page</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType PageLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 3763377721" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Shipment Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType PostedShipmentDateLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 4045418794" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Purchase Order No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType PurchaseOrderNoLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 3259830970" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Qty</source>
+          <note from="Developer" annotates="general" priority="2">Short form of Quantity</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType QtyLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 3246368361" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Quantity</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType QuantityCaptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 3984626017" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Questions?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType QuestionsLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 1075159697" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Salesperson</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType SalespersonLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 139936246" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Shipment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType SalesShipmentLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 2518404021" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sell-to Contact E-Mail</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType SellToContactEmailLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 689955230" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sell-to Contact Mobile Phone No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType SellToContactMobilePhoneNoLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 1096796838" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sell-to Contact Phone No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType SellToContactPhoneNoLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 2531235046" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Shipment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType ShipmentLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 3983004501" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Shipment No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType ShipmentNoLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 2039684796" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Ship-to Address</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType ShiptoAddrLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 2175793069" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Shipment Method</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType ShptMethodDescLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 3014721408" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Subtotal</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType SubtotalLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 1291367939" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Thank You!</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType ThanksLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 2410138484" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Total</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType TotalLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 984818344" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Unit</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType UnitLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 592794411" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Units per Parcel</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType UnitsperParcelLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 3689571896" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Unit Volume</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType UnitVolumeLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - NamedType 1470628605" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Your Shipment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - NamedType YourSalesShipmentLbl</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - ReportDataItem 907109761 - Property 1806354803" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posted Sales Shipment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - ReportDataItem Header - Property RequestFilterHeading</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - Control 2346885236 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Options</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - Control Options - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - Control 819503179 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies that interactions with the contact are logged.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - Control LogInteractionControl - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 2994084780 - Control 819503179 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Log Interaction</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report B2 Sales Shipment - Control LogInteractionControl - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Report 1350906431 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Sales - Invoice</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -782,6 +1027,26 @@
           <source>No. of Copies</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report ERPS Invoice - Control NbOfCopies - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 2522502628 - Action 2881489470 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 1434786627">
+          <source>Test Warehouse Log. Document</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension B2ItemCardExt - Action TestComplet - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 2522502628 - Action 1649095785 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 1434786627">
+          <source>Test Warehouse Mail</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension B2ItemCardExt - Action TestMail - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 2522502628 - Action 4040837940 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 1434786627">
+          <source>Test Sales Order</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension B2ItemCardExt - Action TestsalesOrder - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="PageExtension 2522502628 - Action 198588229 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 1434786627">
+          <source>Test Warehouse Shipment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension B2ItemCardExt - Action TestWarehouseShipment - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 2413792920 - Field 3841898265 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 3276313895">
           <source>EAN Code</source>

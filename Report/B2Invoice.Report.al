@@ -1111,7 +1111,7 @@ report 50100 "B2 Invoice"
                 CurrencyExchangeRate: Record "Currency Exchange Rate";
                 PaymentServiceSetup: Record "Payment Service Setup";
                 EnvInfoProxy: Codeunit "Env. Info Proxy";
-                O365SalesInvoiceMgmt: Codeunit "O365 Sales Invoice Mgmt";
+                //O365SalesInvoiceMgmt: Codeunit "O365 Sales Invoice Mgmt";
                 B2TextL: record "B2 Text";
             begin
                 if EnvInfoProxy.IsInvoicing then begin
