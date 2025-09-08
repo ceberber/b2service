@@ -112,18 +112,6 @@ report 50108 "B2 Sales Shipment"
             column(CompanyVATRegistrationNo_Lbl; CompanyInfo.GetVATRegistrationNumberLbl())
             {
             }
-            column(CompanyLegalOffice; CompanyInfo.GetLegalOffice())
-            {
-            }
-            column(CompanyLegalOffice_Lbl; CompanyInfo.GetLegalOfficeLbl())
-            {
-            }
-            column(CompanyCustomGiro; CompanyInfo.GetCustomGiro())
-            {
-            }
-            column(CompanyCustomGiro_Lbl; CompanyInfo.GetCustomGiroLbl())
-            {
-            }
             column(CompanyLegalStatement; GetLegalStatement())
             {
             }
@@ -599,7 +587,7 @@ report 50108 "B2 Sales Shipment"
 
             trigger OnAfterGetRecord()
             begin
-                CurrReport.Language := Language.GetLanguageIdOrDefault("Language Code");
+                CurrReport.Language := LanguageG.GetLanguageIdOrDefault("Language Code");
 
                 if not IsReportInPreviewMode() then
                     CODEUNIT.Run(CODEUNIT::"Sales Shpt.-Printed", Header);
@@ -666,8 +654,7 @@ report 50108 "B2 Sales Shipment"
 
         trigger OnOpenPage()
         begin
-            InitLogInteraction();
-            LogInteractionEnable := LogInteraction;
+
         end;
     }
 
@@ -704,9 +691,6 @@ report 50108 "B2 Sales Shipment"
         if Header.GetFilters = '' then
             Error(NoFilterSetErr);
 
-        if not CurrReport.UseRequestPage then
-            InitLogInteraction();
-
         CompanyLogoPosition := SalesSetup."Logo Position on Documents";
     end;
 
@@ -722,7 +706,7 @@ report 50108 "B2 Sales Shipment"
         RespCenter: Record "Responsibility Center";
         SellToContact: Record Contact;
         BillToContact: Record Contact;
-        Language: Codeunit Language;
+        LanguageG: Codeunit Language;
         FormatAddr: Codeunit "Format Address";
         FormatDocument: Codeunit "Format Document";
         SegManagement: Codeunit SegManagement;
@@ -737,7 +721,6 @@ report 50108 "B2 Sales Shipment"
         ShowWorkDescription: Boolean;
         ShowCustAddr: Boolean;
         LogInteraction: Boolean;
-        [InDataSet]
         LogInteractionEnable: Boolean;
         CompanyLogoPosition: Integer;
         FirstLineHasBeenOutput: Boolean;
@@ -790,11 +773,6 @@ report 50108 "B2 Sales Shipment"
 
     protected var
         TempTrackingSpecBuffer: Record "Tracking Specification" temporary;
-
-    local procedure InitLogInteraction()
-    begin
-        LogInteraction := SegManagement.FindInteractTmplCode(4) <> '';
-    end;
 
     local procedure DocumentCaption(): Text
     var

@@ -112,18 +112,6 @@ report 50100 "B2 Invoice"
             column(CompanyVATRegistrationNo_Lbl; CompanyInfo.GetVATRegistrationNumberLbl)
             {
             }
-            column(CompanyLegalOffice; CompanyInfo.GetLegalOffice)
-            {
-            }
-            column(CompanyLegalOffice_Lbl; CompanyInfo.GetLegalOfficeLbl)
-            {
-            }
-            column(CompanyCustomGiro; CompanyInfo.GetCustomGiro)
-            {
-            }
-            column(CompanyCustomGiro_Lbl; CompanyInfo.GetCustomGiroLbl)
-            {
-            }
             column(CompanyLegalStatement; GetLegalStatement)
             {
             }
@@ -905,7 +893,7 @@ report 50100 "B2 Invoice"
                         CurrReport.Skip();
                     if not VATClause.Get("VAT Clause Code") then
                         CurrReport.Skip();
-                    VATClause.GetDescription(Header);
+                    VATClause.GetDescriptionText(Header);
                 end;
 
                 trigger OnPreDataItem()
@@ -1110,17 +1098,20 @@ report 50100 "B2 Invoice"
             var
                 CurrencyExchangeRate: Record "Currency Exchange Rate";
                 PaymentServiceSetup: Record "Payment Service Setup";
-                EnvInfoProxy: Codeunit "Env. Info Proxy";
                 //O365SalesInvoiceMgmt: Codeunit "O365 Sales Invoice Mgmt";
                 B2TextL: record "B2 Text";
+                Currency: Record Currency;
+                GeneralLedgerSetup: Record "General Ledger Setup";
+                LanguageMgt: Codeunit Language;
             begin
-                if EnvInfoProxy.IsInvoicing then begin
-                    "Language Code" := Language.GetUserLanguageCode;
-                    CurrReport.Language := Language.GetLanguageIdOrDefault("Language Code");
-                end;
+                CurrReport.Language := LanguageMgt.GetLanguageIdOrDefault("Language Code");
+                CurrReport.FormatRegion := LanguageMgt.GetFormatRegionOrDefault("Format Region");
+                FormatAddr.SetLanguageCode("Language Code");
 
-                if not EnvInfoProxy.IsInvoicing then
-                    CurrReport.Language := Language.GetLanguageIdOrDefault("Language Code");
+
+                //"Language Code" := LanguageG.GetUserLanguageCode;
+                //CurrReport.Language := LanguageG.GetLanguageIdOrDefault("Language Code");
+                ///CurrReport.Language := LanguageG.GetUserLanguageCode();
 
                 if not IsReportInPreviewMode then
                     CODEUNIT.Run(CODEUNIT::"Sales Inv.-Printed", Header);
@@ -1247,8 +1238,6 @@ report 50100 "B2 Invoice"
 
         trigger OnOpenPage()
         begin
-            InitLogInteraction;
-            LogInteractionEnable := LogInteraction;
         end;
     }
 
@@ -1286,8 +1275,6 @@ report 50100 "B2 Invoice"
         if Header.GetFilters = '' then
             Error(NoFilterSetErr);
 
-        if not CurrReport.UseRequestPage then
-            InitLogInteraction;
 
         CompanyLogoPosition := SalesSetup."Logo Position on Documents";
     end;
@@ -1346,7 +1333,7 @@ report 50100 "B2 Invoice"
         TempLineFeeNoteOnReportHist: Record "Line Fee Note on Report Hist." temporary;
         SellToContact: Record Contact;
         BillToContact: Record Contact;
-        Language: Codeunit Language;
+        LanguageG: Codeunit Language;
         FormatAddr: Codeunit "Format Address";
         FormatDocument: Codeunit "Format Document";
         SegManagement: Codeunit SegManagement;
@@ -1385,7 +1372,7 @@ report 50100 "B2 Invoice"
         TotalPaymentDiscOnVAT: Decimal;
         RemainingAmount: Decimal;
         TransHeaderAmount: Decimal;
-        [InDataSet]
+
         LogInteractionEnable: Boolean;
         DisplayAssemblyInformation: Boolean;
         DisplayShipmentInformation: Boolean;
@@ -1426,11 +1413,6 @@ report 50100 "B2 Invoice"
 
         ConditionTextG: Text;
         CRLF: Text[2];
-
-    local procedure InitLogInteraction()
-    begin
-        LogInteraction := SegManagement.FindInteractTmplCode(4) <> '';
-    end;
 
     local procedure InitializeShipmentLine()
     var
@@ -1537,7 +1519,7 @@ report 50100 "B2 Invoice"
                 TempLineFeeNoteOnReportHist.Insert();
             until LineFeeNoteOnReportHist.Next = 0;
         end else begin
-            LineFeeNoteOnReportHist.SetRange("Language Code", Language.GetUserLanguageCode);
+            LineFeeNoteOnReportHist.SetRange("Language Code", LanguageG.GetUserLanguageCode);
             if LineFeeNoteOnReportHist.FindSet then
                 repeat
                     TempLineFeeNoteOnReportHist.Init();
@@ -1606,13 +1588,11 @@ report 50100 "B2 Invoice"
 
     local procedure FormatDocumentFields(SalesInvoiceHeader: Record "Sales Invoice Header")
     begin
-        with SalesInvoiceHeader do begin
-            FormatDocument.SetTotalLabels(GetCurrencySymbol, TotalText, TotalInclVATText, TotalExclVATText);
-            FormatDocument.SetSalesPerson(SalespersonPurchaser, "Salesperson Code", SalesPersonText);
-            FormatDocument.SetPaymentTerms(PaymentTerms, "Payment Terms Code", "Language Code");
-            FormatDocument.SetPaymentMethod(PaymentMethod, "Payment Method Code", "Language Code");
-            FormatDocument.SetShipmentMethod(ShipmentMethod, "Shipment Method Code", "Language Code");
-        end;
+        FormatDocument.SetTotalLabels(SalesInvoiceHeader.GetCurrencySymbol, TotalText, TotalInclVATText, TotalExclVATText);
+        FormatDocument.SetSalesPerson(SalespersonPurchaser, SalesInvoiceHeader."Salesperson Code", SalesPersonText);
+        FormatDocument.SetPaymentTerms(PaymentTerms, SalesInvoiceHeader."Payment Terms Code", SalesInvoiceHeader."Language Code");
+        FormatDocument.SetPaymentMethod(PaymentMethod, SalesInvoiceHeader."Payment Method Code", SalesInvoiceHeader."Language Code");
+        FormatDocument.SetShipmentMethod(ShipmentMethod, SalesInvoiceHeader."Shipment Method Code", SalesInvoiceHeader."Language Code");
     end;
 
     local procedure GetJobTaskDescription(JobNo: Code[20]; JobTaskNo: Code[20]): Text[100]
@@ -1648,18 +1628,9 @@ report 50100 "B2 Invoice"
     end;
 
     local procedure ShowVATClause(VATClauseCode: Code[20]): Boolean
-    var
-        EnvInfoProxy: Codeunit "Env. Info Proxy";
     begin
         if VATClauseCode = '' then
             exit(false);
-
-        if EnvInfoProxy.IsInvoicing then begin
-            if not VATClause.Get(VATClauseCode) then
-                exit(false);
-            if VATClause.Description = '' then
-                exit(false);
-        end;
 
         exit(true);
     end;

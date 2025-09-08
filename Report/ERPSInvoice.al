@@ -133,18 +133,7 @@ report 50101 "ERPS Invoice"
                     column(CompanyVATRegistrationNo_Lbl; CompanyInfo.GetVATRegistrationNumberLbl)
                     {
                     }
-                    column(CompanyLegalOffice; CompanyInfo.GetLegalOffice)
-                    {
-                    }
-                    column(CompanyLegalOffice_Lbl; CompanyInfo.GetLegalOfficeLbl)
-                    {
-                    }
-                    column(CompanyCustomGiro; CompanyInfo.GetCustomGiro)
-                    {
-                    }
-                    column(CompanyCustomGiro_Lbl; CompanyInfo.GetCustomGiroLbl)
-                    {
-                    }
+
                     column(CompanyLegalStatement; Header.GetLegalStatement)
                     {
                     }
@@ -920,7 +909,7 @@ report 50101 "ERPS Invoice"
                                 CurrReport.Skip();
                             if not VATClause.Get("VAT Clause Code") then
                                 CurrReport.Skip();
-                            VATClause.GetDescription(Header);
+                            VATClause.GetDescriptionText(Header);
                         end;
 
                         trigger OnPreDataItem()
@@ -1141,7 +1130,7 @@ report 50101 "ERPS Invoice"
                 PaymentServiceSetup: Record "Payment Service Setup";
 
             begin
-                CurrReport.Language := Language.GetLanguageIdOrDefault("Language Code");
+                CurrReport.Language := LanguageG.GetLanguageIdOrDefault("Language Code");
 
                 if not IsReportInPreviewMode then
                     CODEUNIT.Run(CODEUNIT::"Sales Inv.-Printed", Header);
@@ -1262,8 +1251,6 @@ report 50101 "ERPS Invoice"
 
         trigger OnOpenPage()
         begin
-            InitLogInteraction;
-            LogInteractionEnable := LogInteraction;
         end;
     }
 
@@ -1301,8 +1288,6 @@ report 50101 "ERPS Invoice"
         if Header.GetFilters = '' then
             Error(NoFilterSetErr);
 
-        if not CurrReport.UseRequestPage then
-            InitLogInteraction;
 
         CompanyLogoPosition := SalesSetup."Logo Position on Documents";
     end;
@@ -1361,7 +1346,7 @@ report 50101 "ERPS Invoice"
         TempLineFeeNoteOnReportHist: Record "Line Fee Note on Report Hist." temporary;
         SellToContact: Record Contact;
         BillToContact: Record Contact;
-        Language: Codeunit Language;
+        LanguageG: Codeunit Language;
         FormatAddr: Codeunit "Format Address";
         FormatDocument: Codeunit "Format Document";
         SegManagement: Codeunit SegManagement;
@@ -1400,7 +1385,7 @@ report 50101 "ERPS Invoice"
         TotalPaymentDiscOnVAT: Decimal;
         RemainingAmount: Decimal;
         TransHeaderAmount: Decimal;
-        [InDataSet]
+
         LogInteractionEnable: Boolean;
         DisplayAssemblyInformation: Boolean;
         DisplayShipmentInformation: Boolean;
@@ -1445,10 +1430,6 @@ report 50101 "ERPS Invoice"
         PageGroupNoG: Integer;
         NextPageGroupNoG: Integer;
 
-    local procedure InitLogInteraction()
-    begin
-        LogInteraction := SegManagement.FindInteractTmplCode(4) <> '';
-    end;
 
     local procedure InitializeShipmentLine()
     var
@@ -1555,7 +1536,7 @@ report 50101 "ERPS Invoice"
                 TempLineFeeNoteOnReportHist.Insert();
             until LineFeeNoteOnReportHist.Next() = 0;
         end else begin
-            LineFeeNoteOnReportHist.SetRange("Language Code", Language.GetUserLanguageCode);
+            LineFeeNoteOnReportHist.SetRange("Language Code", LanguageG.GetUserLanguageCode);
             if LineFeeNoteOnReportHist.FindSet then
                 repeat
                     TempLineFeeNoteOnReportHist.Init();

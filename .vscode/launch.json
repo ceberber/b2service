@@ -2,12 +2,29 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "B2 Service Cloud",
+            "type": "al",
+            "request": "launch",
+            "environmentType": "Sandbox",
+            "environmentName": "sandbox",
+            "startupObjectId": 22,
+            "breakOnError": "All",
+            "breakOnRecordWrite": "None",
+            "launchBrowser": true,
+            "enableSqlInformationDebugger": true,
+            "enableLongRunningSqlStatements": true,
+            "longRunningSqlStatementsThreshold": 500,
+            "numberOfSqlStatements": 10,
+            "tenant": "1cbdb60b-0cdb-4031-9d6c-420c5cc09b56"
+
+        },
+        {
             "name": "Localhost",
             "type": "al",
             "request": "launch",
             "environmentType": "OnPrem",
             "server": "http://localhost:8080",
-            "serverInstance": "BC240",
+            "serverInstance": "BC264",
             "authentication": "Windows",
             "startupObjectId": 30,
             "breakOnError": true,
