@@ -446,7 +446,6 @@ codeunit 50102 "Bfrei Poste API"
         if ContentHeadersL.Contains('Content-Type') then ContentHeadersL.Remove('Content-Type');
         ContentHeadersL.Add('Content-Type', 'application/json');
 
-
         RequestL.SetRequestUri(urlL);
         RequestL.Method := 'POST';
         RequestL.GetHeaders(requestHeadersL);
