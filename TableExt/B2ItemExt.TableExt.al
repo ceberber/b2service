@@ -21,5 +21,10 @@ tableextension 50100 B2ItemExt extends Item
             TableRelation = B2SwissMedicItemCategory;
             ValidateTableRelation = true;
         }
+
+        field(50103; "Last Send to PRO"; Date)
+        {
+            Caption = 'Last Sent to pro';
+        }
     }
 }
