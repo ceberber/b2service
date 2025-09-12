@@ -4,6 +4,16 @@ reportextension 50100 "B2 Sales Shipment Ext" extends "Standard Sales - Shipment
     {
         add(Header)
         {
+            column(HeaderTitle; headerTitleLblG)
+            {
+
+            }
+
+            column(headerDirectedByLbl; headerDirectedByLblG)
+            {
+
+            }
+
             column(FooterHeadOfficeLbl; footerHeaderQuarterLblG)
             {
 
@@ -14,9 +24,22 @@ reportextension 50100 "B2 Sales Shipment Ext" extends "Standard Sales - Shipment
 
             }
 
+            column(ContactNameLbl; header.FieldCaption("Sell-to Contact"))
+            {
 
+            }
 
             column(ContactName; header."Sell-to Contact")
+            {
+
+            }
+
+            column(Location; headerLocationLblG)
+            {
+
+            }
+
+            column(LocationCity; locationG.City)
             {
 
             }
@@ -85,6 +108,14 @@ reportextension 50100 "B2 Sales Shipment Ext" extends "Standard Sales - Shipment
             end;
         }
 
+        modify(Header)
+        {
+            trigger OnAfterAfterGetRecord()
+            begin
+                locationG.get('PRO');
+            end;
+        }
+
 
     }
 
@@ -92,8 +123,11 @@ reportextension 50100 "B2 Sales Shipment Ext" extends "Standard Sales - Shipment
         lotTextG: text;
         itemG: Record Item;
 
-        footerHeaderQuarterLblG: Label 'Head office', Comment = 'FRS="Siège social",DES="Hauptverwaltung"';
-        footerContactDetailLblG: Label 'Contact details', Comment = 'FRS="Contact",DES="Kontaktangaben"';
+        footerHeaderQuarterLblG: Label 'Head office', Comment = 'FRS="Siège social",DES="Hauptverwaltung",ITS="Sede central"';
+        footerContactDetailLblG: Label 'Contact details', Comment = 'FRS="Contact",DES="Kontaktangaben",ITS="Dettagli del contatto"';
 
-        headerDirectedbyLblG: Label 'Directed by', Comment = 'FRS="Réalisé par",DES="Regie führt"';
+        headerDirectedByLblG: Label 'Directed by', Comment = 'FRS="Réalisé par",DES="Regie führt",ITS="Diretto da"';
+        headerLocationLblG: Label 'Location', Comment = 'FRS="Emplacement",DES="Standort",ITS="Località"';
+        headerTitleLblG: Label 'Delivery note', Comment = 'FRS="Bulletin de livraison",DES="Lieferschein",ITS="Bollettino di consegna"';
+        locationG: record Location;
 }

@@ -1405,18 +1405,28 @@
         </trans-unit>
         <trans-unit id="ReportExtension 3278542139 - NamedType 3314815395" size-unit="char" translate="yes" xml:space="preserve" al-object-target="ReportExtension 3278542139">
           <source>Contact details</source>
-          <note from="Developer" annotates="general" priority="2">FRS="Contact",DES="Kontaktangaben"</note>
+          <note from="Developer" annotates="general" priority="2">FRS="Contact",DES="Kontaktangaben",ITS="Dettagli del contatto"</note>
           <note from="Xliff Generator" annotates="general" priority="3">ReportExtension B2 Sales Shipment Ext - NamedType footerContactDetailLblG</note>
         </trans-unit>
         <trans-unit id="ReportExtension 3278542139 - NamedType 743956941" size-unit="char" translate="yes" xml:space="preserve" al-object-target="ReportExtension 3278542139">
           <source>Head office</source>
-          <note from="Developer" annotates="general" priority="2">FRS="Siège social",DES="Hauptverwaltung"</note>
+          <note from="Developer" annotates="general" priority="2">FRS="Siège social",DES="Hauptverwaltung",ITS="Sede central"</note>
           <note from="Xliff Generator" annotates="general" priority="3">ReportExtension B2 Sales Shipment Ext - NamedType footerHeaderQuarterLblG</note>
         </trans-unit>
-        <trans-unit id="ReportExtension 3278542139 - NamedType 2128167823" size-unit="char" translate="yes" xml:space="preserve" al-object-target="ReportExtension 3278542139">
+        <trans-unit id="ReportExtension 3278542139 - NamedType 2972847727" size-unit="char" translate="yes" xml:space="preserve" al-object-target="ReportExtension 3278542139">
           <source>Directed by</source>
-          <note from="Developer" annotates="general" priority="2">FRS="Réalisé par",DES="Regie führt"</note>
-          <note from="Xliff Generator" annotates="general" priority="3">ReportExtension B2 Sales Shipment Ext - NamedType headerDirectedbyLblG</note>
+          <note from="Developer" annotates="general" priority="2">FRS="Réalisé par",DES="Regie führt",ITS="Diretto da"</note>
+          <note from="Xliff Generator" annotates="general" priority="3">ReportExtension B2 Sales Shipment Ext - NamedType headerDirectedByLblG</note>
+        </trans-unit>
+        <trans-unit id="ReportExtension 3278542139 - NamedType 718497657" size-unit="char" translate="yes" xml:space="preserve" al-object-target="ReportExtension 3278542139">
+          <source>Location</source>
+          <note from="Developer" annotates="general" priority="2">FRS="Emplacement",DES="Standort",ITS="Località"</note>
+          <note from="Xliff Generator" annotates="general" priority="3">ReportExtension B2 Sales Shipment Ext - NamedType headerLocationLblG</note>
+        </trans-unit>
+        <trans-unit id="ReportExtension 3278542139 - NamedType 1904913238" size-unit="char" translate="yes" xml:space="preserve" al-object-target="ReportExtension 3278542139">
+          <source>Delivery note</source>
+          <note from="Developer" annotates="general" priority="2">FRS="Bulletin de livraison",DES="Lieferschein",ITS="Bollettino di consegna"</note>
+          <note from="Xliff Generator" annotates="general" priority="3">ReportExtension B2 Sales Shipment Ext - NamedType headerTitleLblG</note>
         </trans-unit>
       </group>
     </body>

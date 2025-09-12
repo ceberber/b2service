@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
-  <file datatype="xml" source-language="en-US" target-language="de-CH" original="B2Service">
+  <file datatype="xml" source-language="en-US" target-language="it-CH" original="B2Service">
     <body>
       <group id="body">
         <trans-unit id="Table 681880304 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
@@ -1350,31 +1350,31 @@
         </trans-unit>
         <trans-unit id="ReportExtension 3278542139 - NamedType 3314815395" size-unit="char" translate="yes" xml:space="preserve" al-object-target="ReportExtension 3278542139">
           <source>Contact details</source>
-          <target state="translated">Kontaktangaben</target>
+          <target state="translated">Dettagli del contatto</target>
           <note from="Developer" annotates="general" priority="2">FRS="Contact",DES="Kontaktangaben",ITS="Dettagli del contatto"</note>
           <note from="Xliff Generator" annotates="general" priority="3">ReportExtension B2 Sales Shipment Ext - NamedType footerContactDetailLblG</note>
         </trans-unit>
         <trans-unit id="ReportExtension 3278542139 - NamedType 743956941" size-unit="char" translate="yes" xml:space="preserve" al-object-target="ReportExtension 3278542139">
           <source>Head office</source>
-          <target state="translated">Hauptverwaltung</target>
+          <target state="translated">Sede central</target>
           <note from="Developer" annotates="general" priority="2">FRS="Siège social",DES="Hauptverwaltung",ITS="Sede central"</note>
           <note from="Xliff Generator" annotates="general" priority="3">ReportExtension B2 Sales Shipment Ext - NamedType footerHeaderQuarterLblG</note>
         </trans-unit>
         <trans-unit id="ReportExtension 3278542139 - NamedType 2972847727" size-unit="char" translate="yes" xml:space="preserve" al-object-target="ReportExtension 3278542139">
           <source>Directed by</source>
-          <target state="translated">Regie führt</target>
+          <target state="translated">Diretto da</target>
           <note from="Developer" annotates="general" priority="2">FRS="Réalisé par",DES="Regie führt",ITS="Diretto da"</note>
           <note from="Xliff Generator" annotates="general" priority="3">ReportExtension B2 Sales Shipment Ext - NamedType headerDirectedByLblG</note>
         </trans-unit>
         <trans-unit id="ReportExtension 3278542139 - NamedType 718497657" size-unit="char" translate="yes" xml:space="preserve" al-object-target="ReportExtension 3278542139">
           <source>Location</source>
-          <target state="translated">Standort</target>
+          <target state="translated">Località</target>
           <note from="Developer" annotates="general" priority="2">FRS="Emplacement",DES="Standort",ITS="Località"</note>
           <note from="Xliff Generator" annotates="general" priority="3">ReportExtension B2 Sales Shipment Ext - NamedType headerLocationLblG</note>
         </trans-unit>
         <trans-unit id="ReportExtension 3278542139 - NamedType 1904913238" size-unit="char" translate="yes" xml:space="preserve" al-object-target="ReportExtension 3278542139">
           <source>Delivery note</source>
-          <target state="translated">Lieferschein</target>
+          <target state="translated">Bollettino di consegna</target>
           <note from="Developer" annotates="general" priority="2">FRS="Bulletin de livraison",DES="Lieferschein",ITS="Bollettino di consegna"</note>
           <note from="Xliff Generator" annotates="general" priority="3">ReportExtension B2 Sales Shipment Ext - NamedType headerTitleLblG</note>
         </trans-unit>
