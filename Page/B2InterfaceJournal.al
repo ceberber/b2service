@@ -62,6 +62,17 @@ page 50103 "B2 Interface Journal"
                 end;
             }
 
+            action(SendVendors)
+            {
+                ApplicationArea = all;
+                image = SendTo;
+                caption = 'Send Vendors';
+                trigger OnAction()
+                begin
+                    rec.sendVendors();
+                end;
+            }
+
             action(ShowCsv)
             {
                 ApplicationArea = all;
@@ -78,12 +89,14 @@ page 50103 "B2 Interface Journal"
             {
                 ApplicationArea = all;
                 image = SendTo;
-                caption = 'Show CSV';
+                caption = 'Reset Send to PRO';
                 trigger OnAction()
                 var
                     itemL: Record Item;
+                    vendorL: record Vendor;
                 begin
                     itemL.ModifyAll("Last Send to PRO", 0D);
+                    vendorL.ModifyAll("Last Send to PRO", 0D);
                 end;
 
             }

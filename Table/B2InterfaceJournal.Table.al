@@ -76,7 +76,7 @@ table 50102 "B2 Interface Journal"
 
         if itemCsvBufferL.IsTemporary() then itemCsvBufferL.DeleteAll();
 
-        ProInterfaceL.createHeaderItemCSV(lineNoL, itemCsvBufferL, 'Identifiant Propriétaire');
+        ProInterfaceL.createHeaderCSV(lineNoL, itemCsvBufferL);
 
         itemL.Reset();
         if itemL.FindSet() then
@@ -119,6 +119,83 @@ table 50102 "B2 Interface Journal"
     end;
 
 
+    procedure sendVendors()
+    var
+        vendorCsvBufferL: record "CSV Buffer" temporary;
+        vendorL: record Vendor;
+        ProInterfaceL: Codeunit "B2 Pro Interface";
+        filenameL: text;
+        interfaceJournalL: record "B2 Interface Journal";
+        outStreamCSVL: OutStream;
+        inStreamCSVL: InStream;
+
+        modifyL: Boolean;
+        lineNoL: integer;
+
+
+        companyInformationL: record "Company Information";
+
+        contentFileL: TextBuilder;
+    begin
+
+        lineNoL := 1;
+
+        companyInformationL.get();
+
+        filenameL := companyInformationL.Name + '_VEND_' + Format(CurrentDateTime(), 0, '<Year4><Month,2><Day,2>_<Hours24,2><Minutes,2><Seconds,2>') + '.four';
+
+        if vendorCsvBufferL.IsTemporary() then vendorCsvBufferL.DeleteAll();
+
+        ProInterfaceL.createHeaderCSV(lineNoL, vendorCsvBufferL);
+
+        contentFileL.Append(getCsvBufferText(vendorCsvBufferL, true));
+
+        vendorL.Reset();
+        if vendorL.FindSet() then
+            repeat
+                if (vendorL."Last Send to PRO" = 0D) or (vendorL."Last Date Modified" > vendorL."Last Send to PRO") then begin
+                    lineNoL += 1;
+                    modifyL := vendorL."Last Send to PRO" <> 0D;
+                    ProInterfaceL.CreateVendorCSV(vendorL, lineNoL, modifyL, vendorCsvBufferL);
+                    vendorL."Last Send to PRO" := Today();
+                    vendorL.Modify();
+                end;
+            until vendorL.Next() = 0;
+
+        if lineNoL > 1 then begin
+
+            clear(outStreamCSVL);
+
+            contentFileL.Append(getCsvBufferText(vendorCsvBufferL, true));
+
+
+
+            interfaceJournalL.Init();
+            interfaceJournalL."Action Date Time" := CurrentDateTime();
+            interfaceJournalL."Action type" := interfaceJournalL."Action type"::Vendor;
+            interfaceJournalL."Sub Action Type" := interfaceJournalL."Sub Action Type"::Create;
+            interfaceJournalL.Filename := filenameL;
+
+            interfaceJournalL."CSV".CreateOutStream(outStreamCSVL, TextEncoding::UTF8);
+            outStreamCSVL.Write(contentFileL.ToText());
+
+
+
+            if sendFileToFTP(filenameL, outStreamCSVL) then begin
+                interfaceJournalL."Found On FTP" := true;
+                interfaceJournalL.Insert(true);
+                Commit();
+
+                interfaceJournalL.CSV.CreateInStream(inStreamCSVL, TextEncoding::UTF8);
+                DownloadFromStream(inStreamCSVL, 'CSV', '', '', filenameL);
+            end else
+                Error('Problème d''envoie sur FTP!');
+
+        end;
+    end;
+
+
+
     procedure sendFileToFtp(fileNameP: text; var outStreamP: OutStream): Boolean
     begin
         exit(checkFileOnFtp(filenameP))
@@ -142,5 +219,22 @@ table 50102 "B2 Interface Journal"
         end else
             fileL := 'Pas de fichier';
         Message(fileL);
+    end;
+
+    local procedure getCsvBufferText(var csvBufferP: record "CSV Buffer"; clearBuffer: Boolean): Text
+    var
+        tempBlobL: Codeunit "Temp Blob";
+        csvInStreamL: InStream;
+        linesL: text;
+    begin
+        linesL := '';
+        csvBufferP.Reset();
+        csvBufferP.SaveDataToBlob(tempBlobL, ';');
+
+        tempBlobL.CreateInStream(csvInStreamL, TextEncoding::UTF8);
+        csvInStreamL.Read(linesL);
+
+        if clearBuffer then csvBufferP.DeleteAll();
+        exit(linesL);
     end;
 }

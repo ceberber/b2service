@@ -1405,13 +1405,13 @@ report 50101 "ERPS Invoice"
         DisplayAdditionalFeeNote: Boolean;
         GreetingLbl: Label 'Hello';
         ClosingLbl: Label 'Sincerely';
-        PmtDiscTxt: Label 'If we receive the payment before %1, you are eligible for a %2% payment discount.', Comment = '%1 Discount Due Date %2 = value of Payment Discount % ';
+        PmtDiscTxt: Label 'If we receive the payment before %1, you are eligible for a %2% payment discount.';
         BodyLbl: Label 'Thank you for your business. Your invoice is attached to this message.';
         AlreadyPaidLbl: Label 'The invoice has been paid.';
-        PartiallyPaidLbl: Label 'The invoice has been partially paid. The remaining amount is %1', Comment = '%1=an amount';
+        PartiallyPaidLbl: Label 'The invoice has been partially paid. The remaining amount is %1';
         FromLbl: Label 'From';
         BilledToLbl: Label 'Billed to';
-        ChecksPayableLbl: Label 'Please make checks payable to %1', Comment = '%1 = company name';
+        ChecksPayableLbl: Label 'Please make checks payable to %1';
         QuestionsLbl: Label 'Questions?';
         ThanksLbl: Label 'Thank You!';
         JobNoLbl2: Label 'Job No.';
