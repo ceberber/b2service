@@ -35,7 +35,21 @@ codeunit 50101 "B2 Pro Interface"
     end;
 
     local procedure CreateCustomerCSV(var CustomerP: record Customer; var lineNoP: Integer; ModifyP: Boolean; var csvBufferP: record "CSV Buffer")
+    var
+        companyInfoL: record "Company Information";
+        countryL: record "Country/Region";
     begin
+
+        companyInfoL.get();
+
+        csvBufferP.InsertEntry(lineNoP, 1, Format(1)); //TYPE DE LIGNE	O	Chaîne	1	Constante = 0
+        if modifyP then
+            csvBufferP.InsertEntry(lineNoP, 2, 'M')
+        else
+            csvBufferP.InsertEntry(lineNoP, 2, 'C');
+
+        csvBufferP.InsertEntry(lineNoP, 3, companyInfoL."PRO Tiers Code"); // CODE TIERS	O	Chaîne	15	Code tiers du fournisseur   Constante 
+        csvBufferP.InsertEntry(lineNoP, 4, companyInfoL."PRO Activity Code"); // CODE_ACTIVITE	O	Chaîne	15	Identifiant de l'activité dans le WMS
 
     end;
 
