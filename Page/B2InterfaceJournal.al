@@ -62,6 +62,17 @@ page 50103 "B2 Interface Journal"
                 end;
             }
 
+            action(SendSalesOrders)
+            {
+                ApplicationArea = all;
+                image = SendTo;
+                caption = 'Send Sales Orders';
+                trigger OnAction()
+                begin
+                    rec.sendSalesOrder();
+                end;
+            }
+
             action(SendVendors)
             {
                 ApplicationArea = all;

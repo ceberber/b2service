@@ -18,6 +18,7 @@ pageextension 50100 B2ItemCardExt extends "Item Card"
             {
                 ApplicationArea = all;
             }
+
         }
     }
 

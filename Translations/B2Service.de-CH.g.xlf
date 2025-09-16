@@ -103,6 +103,11 @@
           <note from="Developer" annotates="general" priority="2"/>
           <note from="Xliff Generator" annotates="general" priority="3">Page B2 Interface Journal - Action SendItems - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 681880304 - Action 1280099131 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send Sales Orders</source>
+          <note from="Developer" annotates="general" priority="2"/>
+          <note from="Xliff Generator" annotates="general" priority="3">Page B2 Interface Journal - Action SendSalesOrders - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Page 681880304 - Action 1659278445 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Send Vendors</source>
           <note from="Developer" annotates="general" priority="2"/>
@@ -1148,10 +1153,10 @@
           <note from="Developer" annotates="general" priority="2"/>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension B2 Company Info Pro Ext - Field PRO Tiers Code - Property Caption</note>
         </trans-unit>
-        <trans-unit id="TableExtension 1353663435 - Field 3930532677 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 4148176377">
-          <source>ISO 3 Code </source>
+        <trans-unit id="TableExtension 4113566947 - Field 3626511477 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 4148176377">
+          <source>ISO 3 Code</source>
           <note from="Developer" annotates="general" priority="2"/>
-          <note from="Xliff Generator" annotates="general" priority="3">TableExtension B2 Countries/Region - Field ISO 3 Code  - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension B2 Country Region Ext - Field ISO 3 Code - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 1706368162 - Field 1457054730 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 3118382297">
           <source>Label</source>
@@ -1203,6 +1208,12 @@
           <note from="Developer" annotates="general" priority="2"/>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension B2 Vendor Ext - Field Last Send to PRO - Property Caption</note>
         </trans-unit>
+        <trans-unit id="TableExtension 2926191583 - Field 3130967886 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 1936001480">
+          <source>Send To PRO</source>
+          <target state="translated">Send To PRO</target>
+          <note from="Developer" annotates="general" priority="2">FRS="Envoyer à PRO",DES="Send To PRO"</note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension B2 Vendor Ext - Field Send To PRO - Property Caption</note>
+        </trans-unit>
         <trans-unit id="TableExtension 2413792920 - Field 3841898265 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 3276313895">
           <source>EAN Code</source>
           <note from="Developer" annotates="general" priority="2"/>
@@ -1217,6 +1228,12 @@
           <source>Pharma Code</source>
           <note from="Developer" annotates="general" priority="2"/>
           <note from="Xliff Generator" annotates="general" priority="3">TableExtension B2ItemExt - Field Pharma Code - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="TableExtension 2413792920 - Field 3130967886 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 3276313895">
+          <source>Send To PRO</source>
+          <target state="translated">Send To PRO</target>
+          <note from="Developer" annotates="general" priority="2">FRS="Envoyer à PRO",DES="Send To PRO"</note>
+          <note from="Xliff Generator" annotates="general" priority="3">TableExtension B2ItemExt - Field Send To PRO - Property Caption</note>
         </trans-unit>
         <trans-unit id="TableExtension 2413792920 - Field 3661646669 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Table 3276313895">
           <source>SwissMedic Item Category Code</source>

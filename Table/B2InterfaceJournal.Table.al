@@ -119,6 +119,117 @@ table 50102 "B2 Interface Journal"
     end;
 
 
+    procedure sendSalesOrder()
+    var
+        SalesHeaderL: record "Sales Header";
+        SalesLineL: Record "Sales Line";
+        reservationL: Record "Reservation Entry";
+        salesOrderCsvBufferL: record "CSV Buffer" temporary;
+        ProInterfaceL: Codeunit "B2 Pro Interface";
+        filenameL: text;
+        interfaceJournalL: record "B2 Interface Journal";
+        outStreamCSVL: OutStream;
+        inStreamCSVL: InStream;
+        modifyL: Boolean;
+        lineNoL: integer;
+        companyInformationL: record "Company Information";
+        contentFileL: TextBuilder;
+        lotsL: Dictionary of [Code[50], Decimal];
+        lotL: Code[50];
+        QuantityL: Decimal;
+        lotLineL: integer;
+    begin
+
+        lineNoL := 1;
+
+        companyInformationL.get();
+
+        filenameL := companyInformationL.Name + '_SHIP_' + Format(CurrentDateTime(), 0, '<Year4><Month,2><Day,2>_<Hours24,2><Minutes,2><Seconds,2>') + '.liv';
+
+        if salesOrderCsvBufferL.IsTemporary() then salesOrderCsvBufferL.DeleteAll();
+
+        ProInterfaceL.createHeaderCSV(lineNoL, salesOrderCsvBufferL);
+        contentFileL.Append(getCsvBufferText(salesOrderCsvBufferL, true));
+
+        SalesHeaderL.Reset();
+        SalesHeaderL.SetRange("Document Type", SalesHeaderL."Document Type"::Order);
+        SalesHeaderL.SetRange(Status, SalesHeaderL.Status::Released);
+        if SalesHeaderL.FindSet() then begin
+
+            lineNoL += 1;
+            ProInterfaceL.CreateSalesShipmentHeaderCSV(SalesHeaderL, lineNoL, false, salesOrderCsvBufferL);
+            contentFileL.Append(getCsvBufferText(salesOrderCsvBufferL, true));
+
+            SalesLineL.Reset();
+            SalesLineL.SetRange("Document Type", SalesHeaderL."Document Type");
+            SalesLineL.SetRange("Document No.", SalesHeaderL."No.");
+            SalesLineL.SetRange(Type, SalesLineL.Type::Item);
+            if SalesLineL.FindSet() then
+                repeat
+                    reservationL.Reset();
+                    reservationL.SetRange("Source ID", SalesLineL."Document No.");
+                    reservationL.SetRange("Source Ref. No.", SalesLineL."Line No.");
+                    reservationL.SetRange("Reservation Status", reservationL."Reservation Status"::Surplus);
+                    if reservationL.FindSet() then begin
+                        repeat
+                            if lotsL.ContainsKey(reservationL."Lot No.") then begin
+                                if lotsL.Get(reservationL."Lot No.", QuantityL) then
+                                    lotsL.Set(reservationL."Lot No.", QuantityL + (-reservationL.Quantity));
+
+                            end else
+                                lotsL.Add(reservationL."Lot No.", -reservationL.Quantity)
+
+                        until reservationL.Next() = 0;
+                        lotLineL := 0;
+                        foreach lotL in lotsL.Keys do begin
+                            if lotsL.Get(lotL, quantityL) then begin
+                                lineNoL += 1;
+                                lotLineL += 1;
+                                ProInterfaceL.CreateSalesShipmentLineCSV(SalesLineL, QuantityL, lotL, '.' + format(lotLineL), lineNoL, false, salesOrderCsvBufferL);
+                            end;
+                        end;
+
+                    end else begin
+                        lineNoL += 1;
+                        ProInterfaceL.CreateSalesShipmentLineCSV(SalesLineL, SalesLineL.Quantity, '', '', lineNoL, false, salesOrderCsvBufferL);
+                    end;
+
+
+                until SalesLineL.Next() = 0;
+
+            contentFileL.Append(getCsvBufferText(salesOrderCsvBufferL, true));
+        end;
+
+        if lineNoL > 1 then begin
+
+            clear(outStreamCSVL);
+
+            interfaceJournalL.Init();
+            interfaceJournalL."Action Date Time" := CurrentDateTime();
+            interfaceJournalL."Action type" := interfaceJournalL."Action type"::Picking;
+            interfaceJournalL."Sub Action Type" := interfaceJournalL."Sub Action Type"::Create;
+            interfaceJournalL.Filename := filenameL;
+
+            interfaceJournalL."CSV".CreateOutStream(outStreamCSVL, TextEncoding::UTF8);
+            outStreamCSVL.Write(contentFileL.ToText());
+
+
+
+            if sendFileToFTP(filenameL, outStreamCSVL) then begin
+                interfaceJournalL."Found On FTP" := true;
+                interfaceJournalL.Insert(true);
+                Commit();
+
+                interfaceJournalL.CSV.CreateInStream(inStreamCSVL, TextEncoding::UTF8);
+                DownloadFromStream(inStreamCSVL, 'CSV', '', '', filenameL);
+            end else
+                Error('Problème d''envoie sur FTP!');
+
+        end;
+
+
+    end;
+
     procedure sendVendors()
     var
         vendorCsvBufferL: record "CSV Buffer" temporary;

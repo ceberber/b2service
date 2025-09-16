@@ -26,5 +26,10 @@ tableextension 50100 B2ItemExt extends Item
         {
             Caption = 'Last Sent to pro';
         }
+
+        field(50104; "Send To PRO"; Boolean)
+        {
+            Caption = 'Send To PRO', Comment = 'FRS="Envoyer à PRO",DES="Send To PRO"';
+        }
     }
 }
