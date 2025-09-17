@@ -31,5 +31,11 @@ tableextension 50100 B2ItemExt extends Item
         {
             Caption = 'Send To PRO', Comment = 'FRS="Envoyer à PRO",DES="Send To PRO"';
         }
+
+        field(50105; "Hide Date Exp"; Boolean)
+        {
+            Caption = 'Hide date exp', Comment = 'FRS="Cacher la date exp."';
+            ToolTip = 'Hide date exp. on Sales Shipment Report', Comment = 'FRS="Cacher la date exp. sur l''impression des BL"';
+        }
     }
 }

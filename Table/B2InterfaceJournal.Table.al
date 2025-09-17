@@ -79,6 +79,7 @@ table 50102 "B2 Interface Journal"
         ProInterfaceL.createHeaderCSV(lineNoL, itemCsvBufferL);
 
         itemL.Reset();
+        itemL.SetRange("Send To PRO", true);
         if itemL.FindSet() then
             repeat
                 if (itemL."Last Send to PRO" = 0D) or (itemL."Last Date Modified" > itemL."Last Send to PRO") then begin
@@ -262,6 +263,7 @@ table 50102 "B2 Interface Journal"
         contentFileL.Append(getCsvBufferText(vendorCsvBufferL, true));
 
         vendorL.Reset();
+        vendorL.SetRange("Send To PRO", true);
         if vendorL.FindSet() then
             repeat
                 if (vendorL."Last Send to PRO" = 0D) or (vendorL."Last Date Modified" > vendorL."Last Send to PRO") then begin

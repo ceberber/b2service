@@ -20,6 +20,19 @@ pageextension 50100 B2ItemCardExt extends "Item Card"
             }
 
         }
+
+        addLast(Item)
+        {
+            field("Send To PRO"; rec."Send To PRO")
+            {
+                ApplicationArea = all;
+            }
+
+            field("Hide Date Exp"; rec."Hide Date Exp")
+            {
+                ApplicationArea = all;
+            }
+        }
     }
 
     actions

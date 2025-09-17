@@ -81,6 +81,8 @@ reportextension 50100 "B2 Sales Shipment Ext" extends "Standard Sales - Shipment
                 itemLedgerEntryL: record "Item Ledger Entry";
                 withQuantityL: Boolean;
                 textBuilderL: TextBuilder;
+                itemL: record Item;
+                trackingL: record "Item Tracking Code";
 
             begin
                 clear(textBuilderL);
@@ -96,7 +98,12 @@ reportextension 50100 "B2 Sales Shipment Ext" extends "Standard Sales - Shipment
                         if withQuantityL then
                             textBuilderL.AppendLine(Format(itemLedgerEntryL.Quantity) + 'x ' + itemLedgerEntryL."Lot No.")
                         else
-                            textBuilderL.Append(itemLedgerEntryL."Lot No.");
+                            textBuilderL.AppendLine(itemLedgerEntryL."Lot No.");
+
+
+                        if itemL.get(itemLedgerEntryL."Item No.") and (Not itemL."Hide Date Exp") and (itemL."Item Tracking Code" <> '') and trackingL.get(itemL."Item Tracking Code") and trackingL."Use Expiration Dates" then begin
+                            textBuilderL.AppendLine(itemLedgerEntryL.FieldCaption("Expiration Date") + ' ' + format(itemLedgerEntryL."Expiration Date", 0, '<Month,2>/<year4>'));
+                        end;
                     until itemLedgerEntryL.Next() = 0;
 
                 lotTextG := textBuilderL.ToText();
@@ -123,7 +130,7 @@ reportextension 50100 "B2 Sales Shipment Ext" extends "Standard Sales - Shipment
         lotTextG: text;
         itemG: Record Item;
 
-        footerHeaderQuarterLblG: Label 'Head office', Comment = 'FRS="Siège social",DES="Hauptverwaltung",ITS="Sede central"';
+        footerHeaderQuarterLblG: Label 'Head office', Comment = 'FRS="Siège social",DES="Hauptverwaltung",ITS="Sede centrale"';
         footerContactDetailLblG: Label 'Contact details', Comment = 'FRS="Contact",DES="Kontaktangaben",ITS="Dettagli del contatto"';
 
         headerDirectedByLblG: Label 'Directed by', Comment = 'FRS="Réalisé par",DES="Regie führt",ITS="Diretto da"';

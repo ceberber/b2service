@@ -11,6 +11,7 @@ tableextension 50105 "B2 Vendor Ext" extends Vendor
         field(50101; "Send To PRO"; Boolean)
         {
             Caption = 'Send To PRO', Comment = 'FRS="Envoyer à PRO",DES="Send To PRO"';
+            DataClassification = ToBeClassified;
         }
     }
 }

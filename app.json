@@ -2,7 +2,7 @@
   "id": "460a4560-613b-4247-a835-4ac2c946405f",
   "name": "B2Service",
   "publisher": "ERP Services SA",
-  "version": "26.0.0.2509080",
+  "version": "26.0.0.2509162",
   "brief": "",
   "description": "",
   "privacyStatement": "",
@@ -10,7 +10,7 @@
   "help": "",
   "url": "https://erpservices.ch",
   "logo": "./logo/logo.png",
-  "features": [ "TranslationFile",  "GenerateCaptions"  ],
+  "features": [ "TranslationFile"],
   "dependencies": [],
   "screenshots": [],
   "platform": "26.0.0.0",
@@ -27,5 +27,5 @@
     "allowDownloadingSource": false,
     "includeSourceInSymbolFile": false
   },
-  "runtime": "15.0"
+  "runtime": "15.1"
 }
