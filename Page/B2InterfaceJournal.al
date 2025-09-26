@@ -62,6 +62,17 @@ page 50103 "B2 Interface Journal"
                 end;
             }
 
+            action(SendPurchaseOrders)
+            {
+                ApplicationArea = all;
+                image = SendTo;
+                caption = 'Send Purchase Orders';
+                trigger OnAction()
+                begin
+                    rec.sendPurchOrder();
+                end;
+            }
+
             action(SendSalesOrders)
             {
                 ApplicationArea = all;
@@ -92,6 +103,18 @@ page 50103 "B2 Interface Journal"
                 trigger OnAction()
                 begin
                     rec.ShowCSV();
+                end;
+
+            }
+
+            action(DownLoadCsv)
+            {
+                ApplicationArea = all;
+                image = SendTo;
+                caption = 'Download CSV';
+                trigger OnAction()
+                begin
+                    rec.DownloadCSV();
                 end;
 
             }

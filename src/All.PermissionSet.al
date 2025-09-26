@@ -12,6 +12,7 @@ permissionset 50100 "B2Service All"
          page "B2 Text Card" = X,
          page "B2 Text List" = X,
          page "B2SwissMedic Item Category" = X,
+         report "B2 Inventory By Lot" = X,
          report "B2 Invoice" = X,
          report "B2 Post Shipment Label" = X,
          table "B2 Interface Journal" = X,

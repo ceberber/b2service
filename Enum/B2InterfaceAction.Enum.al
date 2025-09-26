@@ -1,7 +1,7 @@
 enum 50101 "B2 Interface Action"
 {
     Extensible = true;
-    
+
     value(0; " ")
     {
         Caption = ' ';
@@ -45,5 +45,10 @@ enum 50101 "B2 Interface Action"
     value(10; "Print Planzer")
     {
         Caption = 'Print Planzer';
+    }
+
+    value(11; "Receipt")
+    {
+        Caption = 'Receipt';
     }
 }

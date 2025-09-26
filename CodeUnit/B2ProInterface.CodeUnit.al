@@ -1,6 +1,54 @@
 codeunit 50101 "B2 Pro Interface"
 {
 
+    TableNo = "Job Queue Entry";
+    trigger OnRun()
+    var
+        b2InterfaceJournalL: record "B2 Interface Journal";
+    begin
+        if Rec."Parameter String" <> '' then begin
+
+            case rec."Parameter String" of
+
+                'send item':
+                    begin
+                        b2InterfaceJournalL.sendItems();
+                    end;
+
+                'send vendor':
+                    begin
+                        b2InterfaceJournalL.sendVendors();
+                    end;
+
+                'send purchase':
+                    begin
+                        b2InterfaceJournalL.sendPurchOrder();
+                    end;
+
+                'send sales':
+                    begin
+                        b2InterfaceJournalL.sendSalesOrder();
+                    end;
+
+                'read shipment':
+                    begin
+
+                    end;
+                'read receipt':
+                    begin
+
+                    end;
+
+                'read inventory':
+                    begin
+
+                    end;
+
+
+            end;
+        end;
+    end;
+
     procedure createHeaderCSV(var lineNoP: Integer; var csvBufferP: record "CSV Buffer")
     var
         companyInfoL: record "Company Information";
@@ -72,7 +120,7 @@ codeunit 50101 "B2 Pro Interface"
         csvBufferP.InsertEntry(lineNoP, 26, salesHeaderP."Bill-to Address");
         csvBufferP.InsertEntry(lineNoP, 27, salesHeaderP."Bill-to Address 2");
         csvBufferP.InsertEntry(lineNoP, 28, salesHeaderP."Bill-to Post Code");
-        csvBufferP.InsertEntry(lineNoP, 39, salesHeaderP."Bill-to City");
+        csvBufferP.InsertEntry(lineNoP, 29, salesHeaderP."Bill-to City");
         csvBufferP.InsertEntry(lineNoP, 30, ''); //TRANS_E
 
         if countryL.get(salesHeaderP."Ship-to Country/Region Code") then
@@ -179,30 +227,174 @@ codeunit 50101 "B2 Pro Interface"
 
     end;
 
+    procedure createPurchReceiptHeaderCSV(var PurchHeaderP: record "Purchase Header"; var lineNoP: Integer; modifyP: Boolean; var csvBufferP: record "CSV Buffer")
+    var
+        companyInfoL: record "Company Information";
+        countryL: record "Country/Region";
+    begin
 
-    /* 
-6.2 Fichier Fournisseur – Format de la ligne : Code fournisseur
-Champ	Obligatoire	Format	Taille	Définition & Valeurs
-TYPE LIGNE	O	Num	1	Constante = 1
-ACTION	O	Chaîne	1	C: Pour une création
-M : Pour une modification
-CODE_TIERS	O	Chaîne	15	Identifiant du client dans le WMS
-Constante 
-CODE_ACTIVITE	O	Chaîne	15	Identifiant de l'activité dans le WMS
-CODE FOURN	O	Chaîne	15	Code du Fournisseur (unique pour un couple Code_tiers/Code_activite)
-LIBELLE COURT	O	Chaîne	30	Libelle du fournisseur
-ADRESSE1	N	Chaine	30	Champ 1 de l'adresse du fournisseur
-ADRESSE2	N	Chaine	30	Champ 2 de l'adresse du fournisseur
-ADRESSE3	N	Chaîne	30	Champ 3 de l'adresse du fournisseur
-VILLE	N	Chaîne	30	Ville
-CODE_POSTAL	N	Chaîne	10	Champ Code postal
-CODE_PAYS	N	Chaîne	3	Voir liste des codes pays sur 3 caractères Iso. 3166-1 A3
-NUM_TELEPHONE	N	Chaîne	20	Numéro de téléphone
-ADR_MAIL	N	Chaine	50	Adresses mails du contact
-CODE_EDI	N	Chaine	20	Code d'identification dans l'ERP
-COMMENTAIRE	N	Chaine	50	Champ libre
+        /* 
+        1   TYPE LIGNE	            O	    Num	    1	        Constante = 1
+        2   ACTION	                O	    Chaîne	1	        C: Pour une création
+                                                                S : Pour une suppression
+                                                                M : Pour une modification
+        3   CODE ZONE ACTIVITE	    O	    Chaîne	5	        Zone logistique du prestataire
+                                                                Exemple « LOGIS »
+        4   CODE DEPOT	            O	    Chaîne	15	        Dépôt du prestataire
+                                                                Constante = Exemple « FLEURY »
+        5   CODE TIERS	            O	    Chaîne	15	        Identifiant du client dans le WMS - 
+                                                                Constante = Exemple « ARTI »
+        6   CODE ACTIVITE	        O	    Chaîne	15	        Identifiant de l’activité dans le WMS
+                                                                Constante = Exemple « ARTI »
+        7   CODE FOURNISSEUR	    O	    Chaîne	15	        Fournisseur de la réception
+        8   REF1_BR	                O	    Chaîne	50	        Référence du BR N°1 :
+                                                                Clé unique identifiant l’entête de la réception dans votre système
+                                                                (Ce champ est remonté dans l’interface compte rendu de la réception)
+
+        9   REF2_BR	                N	    Chaîne	50	        Référence du BR N°2 : Identifiant supplémentaire de l’entête de la réception dans votre système.
+                                                                (Ce champ est remonté dans l’interface compte rendu de la réception)
+        10  LIBELLE_COURT	        N	    Chaîne	30	        Libellé court
+        11  REMARQUE	            N	    Chaîne	250	        Remarque concernant le BR
+        12  DATE_RECEP_PREV	        O	    Date	10	        Date de réception prévue (DD/MM/YYYY)
+        13  HEURE_RECEP_PREV	    O	    Heure	5	        Heure de réception prévue (HH:MM)
+        14  CODE OPERATION	        N	    Chaîne	25	        Opération commerciale du client dont dépend la réception (Vide)
+        15  TYPE_BR	                O	    Chaîne	15	        Type BR
+                                                                Constante = CL : Réception classique
+                                                                Constante = DI : Réception directe
+        16  TRANS_E	                N	    Chaîne	500	        Zone de transit de données
+        17  REF3_BR	                N	    Chaîne	50	        Référence du BR N°3 : Identifiant supplémentaire de l’entête de la réception dans votre système.
+                                                                (Ce champ est remonté dans l’interface compte rendu de la réception)
+        18  BATIMENT FOURNISSEUR	N	    Chaine	20	        Met à jour le bâtiment du fournisseur, le mettre à vide ne supprimera pas le bâtiment du fournisseur.
+        19  BATIMENT BR	            N	    Chaine	20	        Bâtiment du BR.
+                                                                Si le paramètre CAR004 est actif, un bâtiment est obligatoire.
+                                                                Si le bâtiment du BR est vide on prend le bâtiment fournisseur du INREC courant.
+                                                                Si le bâtiment du fournisseur du INREC courant est aussi vide, on prend le bâtiment du fournisseur dans IzyPro.
+                                                                Si les trois champs sont vide, une erreur est générée.
+
+   */
+
+        companyInfoL.get();
+
+        csvBufferP.InsertEntry(lineNoP, 1, Format(1)); //TYPE DE LIGNE	O	Chaîne	1	Constante = 0
+        if modifyP then
+            csvBufferP.InsertEntry(lineNoP, 2, 'M') //ACTION C : Pour une création, S : Pour une suppression, M : Pour une modification
+        else
+            csvBufferP.InsertEntry(lineNoP, 2, 'C'); //ACTION C : Pour une création, S : Pour une suppression, M : Pour une modification
+
+        csvBufferP.InsertEntry(lineNoP, 3, companyInfoL."PRO Activity Zone");
+        csvBufferP.InsertEntry(lineNoP, 4, companyInfoL."PRO Location Code");
+        csvBufferP.InsertEntry(lineNoP, 5, companyInfoL."PRO Tiers Code");
+        csvBufferP.InsertEntry(lineNoP, 6, companyInfoL."PRO Activity Code");
+        csvBufferP.InsertEntry(lineNoP, 7, PurchHeaderP."Buy-from Vendor No.");
+        csvBufferP.InsertEntry(lineNoP, 8, PurchHeaderP."No.");
+        csvBufferP.InsertEntry(lineNoP, 9, '');
+        csvBufferP.InsertEntry(lineNoP, 10, '');
+        csvBufferP.InsertEntry(lineNoP, 11, '');
+        csvBufferP.InsertEntry(lineNoP, 12, format(PurchHeaderP."Expected Receipt Date", 0, '<day,2>/<Month,2>/<year4>'));
+        csvBufferP.InsertEntry(lineNoP, 13, '14:00');
+        csvBufferP.InsertEntry(lineNoP, 14, '');
+        csvBufferP.InsertEntry(lineNoP, 15, 'CL');
+        csvBufferP.InsertEntry(lineNoP, 16, '');
+        csvBufferP.InsertEntry(lineNoP, 17, '');
+        csvBufferP.InsertEntry(lineNoP, 18, '');
+        csvBufferP.InsertEntry(lineNoP, 19, '');
+
+    end;
+
+    procedure createPurchReceiptLineCSV(var PurchLineP: record "Purchase Line"; QuantityP: decimal; lotNoP: text; indiceP: text; dateExpP: date; var lineNoP: Integer; modifyP: Boolean; var csvBufferP: record "CSV Buffer")
+    var
+        companyInfoL: record "Company Information";
+        countryL: record "Country/Region";
+        itemTRackingL: record "Item Ledger Entry";
+    begin
+
+        /*
+
+        1   TYPE LIGNE              O       Num	    1	    Constante = 2
+        2   ACTION	                O	    Chaîne	1	    C: Pour une création
+                                                            S : Pour une suppression
+                                                            M : Pour une modification
+        3   REF_BR	                O       Chaîne  50	    Référence de l’entête BR, assure la cohérence entre entêtes et lignes dans un même fichier égale à REF1 de l’entête
+                                                            ENTETE.REF1_BR
+        4   REF_LIGBR	            O	    Chaîne	15	    Référence de la Ligne BR
+                                                            Identifiant de la ligne de réception dans votre système. Unique par REF_BR
+                                                            (Ce champ est remonté dans l’interface compte rendu de la réception)
+        5   CODE ARTICLE	        O	    Chaîne	45	    Code de l’article commandé existant pour le DO/ACT
+        6   CODE_ACTIVITE	        O	    Chaine	15	    Activité du client dont dépend l’article 
+                                                            Exemple « ARTI » doit être identique au CODE ACTIVITE de l’entête
+        7   QTE UG	                O	    Num	    8	    Quantité d’Unités de Gestion commandées
+                                                            Quantité en UVC
+        8   QTE UG PREVUE	        O	    Num	    8	    Quantité d’UG prévues en réception
+                                                            Quantité en UVC
+        9   TYPE_CDT_MIN	        O	    Chaîne	2	    Type de l’Unité de Gestion : 
+                                                            Constante = U
+        10  CDT_MIN	                O	    Chaîne	5	    Unité de Gestion
+                                                            Constante = UC
+        11  CODE OPERATION	        N	    Chaîne	25	    Opération commerciale du client dont dépend la réception
+                                                            SOUS CODE OPERATION	N	Chaîne	25	Sous-code opération du client dont dépend la réception
+                                                            (Vide)
+        12  DATE DLC	            N	    Date	10	    Date Limite de Consommation (DD/MM/YYYY)
+                                                            (Vide)
+        13  DATE DLV	            N	    Date	10	    Date Limite de Vente (DD/MM/YYYY)
+                                                            (Vide)
+        14  NUM_LOT	                N       Chaîne	20	    N° du Lot de l’article à entrer en stock
+                                                            (Vide)
+        15  DESTINATAIRE	        N	    Chaîne	25	    Code destinataire
+                                                            (Vide)
+        16  RESERVATION	            N	    Chaîne	50	    Code réservation
+                                                            (Vide)
+        17  SSCC	                N	    Chaine	20	    Identifiant unique du support de réception
+        18  TRANS_L	                N	    Chaîne	250	    Zone de transit des données
+        19  NUMERO DE SERIE	        N	    Chaîne	30	    NON ACTIF
+        20  PUHT	                N	    Num	    8	    Prix unitaire Hors Taxes de l’article
+                                                            0 par défaut
+        21  TYPE_BLOCAGE 	        N	    Chaîne	2	    Type de blocage, doit exister dans IzyPro
+        22  CODE_BLOCAGE	        N	    Chaîne	15	    Code de blocage, doit exister dans IzyPro et être lié au type de blocage
+        23  REMARQUE	            N	    Chaîne	60	    Free remark field
+                                                            (Empty if none, but no spaces)
 
 
-    */
+
+        */
+
+
+        companyInfoL.get();
+
+        csvBufferP.InsertEntry(lineNoP, 1, Format(2)); //TYPE DE LIGNE	O	Chaîne	1	Constante = 2
+        if modifyP then
+            csvBufferP.InsertEntry(lineNoP, 2, 'M')
+        else
+            csvBufferP.InsertEntry(lineNoP, 2, 'C');
+        csvBufferP.InsertEntry(lineNoP, 3, PurchLineP."Document No."); // REF_OL
+        csvBufferP.InsertEntry(lineNoP, 4, format(PurchLineP."Line No.") + indiceP); // REF_LIGOL
+        csvBufferP.InsertEntry(lineNoP, 5, PurchLineP."No."); // CODE ARTICLE
+        csvBufferP.InsertEntry(lineNoP, 6, companyInfoL."PRO Activity Code"); //CODE_ACTIVITE
+        csvBufferP.InsertEntry(lineNoP, 7, format(QuantityP)); //QTE UG
+        csvBufferP.InsertEntry(lineNoP, 8, format(QuantityP)); //QTE UG
+        csvBufferP.InsertEntry(lineNoP, 9, 'U'); // TYPE_CDT_MIN - Constante = U
+        csvBufferP.InsertEntry(lineNoP, 10, 'UC'); // CDT_MIN
+        csvBufferP.InsertEntry(lineNoP, 11, '');
+        csvBufferP.InsertEntry(lineNoP, 12, '');
+        if dateExpP <> 0D then
+            csvBufferP.InsertEntry(lineNoP, 13, Format(dateExpP, 0, '<day,2>/<month,2>/<year4>'))
+        else
+            csvBufferP.InsertEntry(lineNoP, 13, '');
+        csvBufferP.InsertEntry(lineNoP, 14, lotNoP);
+        csvBufferP.InsertEntry(lineNoP, 15, '');
+        csvBufferP.InsertEntry(lineNoP, 16, '');
+        csvBufferP.InsertEntry(lineNoP, 17, '');
+        csvBufferP.InsertEntry(lineNoP, 18, '');
+        csvBufferP.InsertEntry(lineNoP, 19, '');
+        csvBufferP.InsertEntry(lineNoP, 20, '');
+        csvBufferP.InsertEntry(lineNoP, 21, '');
+        csvBufferP.InsertEntry(lineNoP, 22, '');
+        csvBufferP.InsertEntry(lineNoP, 23, '');
+
+    end;
+
+
+
+
+
 
 }
