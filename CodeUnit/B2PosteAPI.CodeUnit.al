@@ -1,4 +1,4 @@
-codeunit 50102 "Bfrei Poste API"
+codeunit 50102 "B2 Poste API"
 {
 
     Permissions = TableData "Service Shipment Header" = rm,

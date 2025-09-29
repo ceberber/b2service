@@ -118,8 +118,22 @@ reportextension 50100 "B2 Sales Shipment Ext" extends "Standard Sales - Shipment
         modify(Header)
         {
             trigger OnAfterAfterGetRecord()
+            var
+                shippingAgentL: Record "Shipping Agent";
+                recRefL: RecordRef;
+                postApiL: Codeunit "B2 Poste API";
+                shipmentHeaderL: record "Sales Shipment Header";
             begin
                 locationG.get('PRO');
+
+
+                if ("Shipping Agent Code" <> '') and shippingAgentL.get("Shipping Agent Code") and (shippingAgentL."Client ID" <> '') and ("Package Tracking No." = '') then begin
+                    recRefL.GetTable(Header);
+                    postApiL.generateAddressLabel(recRefL);
+                end;
+                recRefL.SetTable(shipmentHeaderL);
+                shipmentHeaderL.get(shipmentHeaderL."No.");
+                header."Package Tracking No." := shipmentHeaderL."Package Tracking No.";
             end;
         }
 

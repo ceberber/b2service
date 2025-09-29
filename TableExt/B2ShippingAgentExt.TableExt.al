@@ -34,5 +34,9 @@ tableextension 50102 "B2 Shipping Agent Ext" extends "Shipping Agent"
             ToolTip = 'Label layout (e.g. A6, A7)';
             InitValue = 'A7';
         }
+
+        field(50106;"BESO"; boolean) {
+            
+        }
     }
 }

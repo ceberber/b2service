@@ -549,35 +549,35 @@
           <note from="Developer" annotates="general" priority="2">FRS="Inventaire par lot",DES=""</note>
           <note from="Xliff Generator" annotates="general" priority="3">PageExtension B2 Item List - Action InventoryByLot - Property Caption</note>
         </trans-unit>
-        <trans-unit id="PageExtension 112853402 - Control 652819368 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 4073709604">
+        <trans-unit id="PageExtension 2820881275 - Control 652819368 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 4073709604">
           <source>Client ID</source>
           <note from="Developer" annotates="general" priority="2"/>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension B2 Shipping Aggents Ext - Control Client ID - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension B2 Shipping Agents Ext - Control Client ID - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 112853402 - Control 4119567661 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 4073709604">
+        <trans-unit id="PageExtension 2820881275 - Control 4119567661 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 4073709604">
           <source>Franking Licence</source>
           <note from="Developer" annotates="general" priority="2"/>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension B2 Shipping Aggents Ext - Control Franking Licence - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension B2 Shipping Agents Ext - Control Franking Licence - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 112853402 - Control 3495095288 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 4073709604">
+        <trans-unit id="PageExtension 2820881275 - Control 3495095288 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 4073709604">
           <source>Label layout (e.g. A6, A7)</source>
           <note from="Developer" annotates="general" priority="2"/>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension B2 Shipping Aggents Ext - Control Label Layout - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension B2 Shipping Agents Ext - Control Label Layout - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 112853402 - Control 2029611568 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 4073709604">
+        <trans-unit id="PageExtension 2820881275 - Control 2029611568 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 4073709604">
           <source>Product description (e.g. PRI, SEM)</source>
           <note from="Developer" annotates="general" priority="2"/>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension B2 Shipping Aggents Ext - Control PrzL - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension B2 Shipping Agents Ext - Control PrzL - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 112853402 - Control 2112555197 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 4073709604">
+        <trans-unit id="PageExtension 2820881275 - Control 2112555197 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 4073709604">
           <source>Client ID</source>
           <note from="Developer" annotates="general" priority="2"/>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension B2 Shipping Aggents Ext - Control Secret ID - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension B2 Shipping Agents Ext - Control Secret ID - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="PageExtension 112853402 - Control 3732224266 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 4073709604">
+        <trans-unit id="PageExtension 2820881275 - Control 3732224266 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 4073709604">
           <source>Test</source>
           <note from="Developer" annotates="general" priority="2"/>
-          <note from="Xliff Generator" annotates="general" priority="3">PageExtension B2 Shipping Aggents Ext - Control Test - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PageExtension B2 Shipping Agents Ext - Control Test - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="PageExtension 2522502628 - Action 2881489470 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve" al-object-target="Page 1434786627">
           <source>Test Warehouse Log. Document</source>

@@ -1,4 +1,4 @@
-pageextension 50101 "B2 Shipping Aggents Ext" extends "Shipping Agents"
+pageextension 50101 "B2 Shipping Agents Ext" extends "Shipping Agents"
 {
     layout
     {
@@ -39,6 +39,11 @@ pageextension 50101 "B2 Shipping Aggents Ext" extends "Shipping Agents"
             {
                 ApplicationArea = All;
                 ToolTip = 'Test';
+            }
+
+            field(BESO; rec.BESO)
+            {
+
             }
         }
     }

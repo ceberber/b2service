@@ -1,17 +1,28 @@
-report 50126 "B2 Post Shipment Label"
+report 50102 "B2 Post Shipment Label"
 {
     ApplicationArea = All;
     Caption = 'Post Shipment Label';
     UsageCategory = ReportsAndAnalysis;
     DefaultLayout = RDLC;
-    RDLCLayout = './Report/RDLC/BFreiPostShipmentLabel.rdlc';
+    RDLCLayout = './Report/RDLC/B2PostShipmentLabel.rdlc';
 
     dataset
     {
+
         dataitem(SalesShipmentHeader; "Sales Shipment Header")
         {
 
             RequestFilterFields = "No.";
+
+            column(BESO; besoG)
+            {
+
+            }
+
+            column(Your_Reference; "Your Reference")
+            {
+
+            }
 
             trigger OnPreDataItem()
             begin
@@ -32,6 +43,8 @@ report 50126 "B2 Post Shipment Label"
                 CalcFields("Label");
                 Label.CreateInStream(inStreamL);
                 inStreamL.Read(image64G);
+
+
             end;
         }
 
@@ -69,4 +82,6 @@ report 50126 "B2 Post Shipment Label"
 
     var
         image64G: text;
+        besoG: Boolean;
+        packageNbrG: integer;
 }

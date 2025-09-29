@@ -1,13 +1,13 @@
-permissionset 50100 "B2Service All"
+permissionset 50100 "All"
 {
     Access = Internal;
     Assignable = true;
-    Caption = 'B2Service All permissions', Locked = true;
+    Caption = 'All permissions', Locked = true;
 
     Permissions =
+         codeunit "B2 Poste API" = X,
          codeunit "B2 Pro Interface" = X,
          codeunit "B2S Management" = X,
-         codeunit "Bfrei Poste API" = X,
          page "B2 Interface Journal" = X,
          page "B2 Text Card" = X,
          page "B2 Text List" = X,

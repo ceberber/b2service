@@ -63,6 +63,7 @@ table 50102 "B2 Interface Journal"
         modifyL: Boolean;
         lineNoL: integer;
 
+        contentFileL: TextBuilder;
 
         companyInformationL: record "Company Information";
     begin
@@ -78,6 +79,8 @@ table 50102 "B2 Interface Journal"
 
         ProInterfaceL.createHeaderCSV(lineNoL, itemCsvBufferL);
 
+        contentFileL.Append(getCsvBufferText(itemCsvBufferL, true));
+
         itemL.Reset();
         itemL.SetRange("Send To PRO", true);
         if itemL.FindSet() then
@@ -90,6 +93,8 @@ table 50102 "B2 Interface Journal"
                     itemL.Modify();
                 end;
             until itemL.Next() = 0;
+
+        contentFileL.Append(getCsvBufferText(itemCsvBufferL, true));
 
         if lineNoL > 1 then begin
 
@@ -106,8 +111,7 @@ table 50102 "B2 Interface Journal"
             interfaceJournalL."Sub Action Type" := interfaceJournalL."Sub Action Type"::Create;
             interfaceJournalL.Filename := filenameL;
             interfaceJournalL."CSV".CreateOutStream(outStreamCSVL, TextEncoding::UTF8);
-            CopyStream(outStreamCSVL, inStreamCSVL);
-
+            outStreamCSVL.Write(contentFileL.ToText());
 
             if sendFileToFTP(filenameL, outStreamCSVL) then begin
                 interfaceJournalL."Found On FTP" := true;
