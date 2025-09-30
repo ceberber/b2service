@@ -64,11 +64,23 @@ End Function
   <DataSets>
     <DataSet Name="DataSet_Result">
       <Fields>
-        <Field Name="BESO">
-          <DataField>BESO</DataField>
+        <Field Name="ShipmentNo">
+          <DataField>ShipmentNo</DataField>
         </Field>
         <Field Name="Your_Reference">
           <DataField>Your_Reference</DataField>
+        </Field>
+        <Field Name="ParcelLbl">
+          <DataField>ParcelLbl</DataField>
+        </Field>
+        <Field Name="TotalPackage">
+          <DataField>TotalPackage</DataField>
+        </Field>
+        <Field Name="PackageNo">
+          <DataField>PackageNo</DataField>
+        </Field>
+        <Field Name="BESO">
+          <DataField>BESO</DataField>
         </Field>
         <Field Name="Image64">
           <DataField>Image64</DataField>

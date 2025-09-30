@@ -132,7 +132,7 @@ codeunit 50102 "B2 Poste API"
         exit(queryStringL.ToText());
     end;
 
-    local procedure generateAddressLabelJson(var recRefP: recordRef): Text
+    local procedure generateAddressLabelJson(var recRefP: recordRef; parcelNo: integer): Text
     var
         jsonBodyL: JsonObject;
         jsonCustomerL: JsonObject;
@@ -160,6 +160,7 @@ codeunit 50102 "B2 Poste API"
         pL: text;
         countryL: text;
 
+        languageCodeL: text;
 
     begin
 
@@ -180,6 +181,8 @@ codeunit 50102 "B2 Poste API"
                     fieldValuesL.Add('country', fieldRefL.Value);
                 'Shipping Agent Code':
                     shippingAgentCodeL := fieldRefL.Value;
+                'Language Code':
+                    languageCodeL := fieldRefL.Value;
             end;
         end;
 
@@ -230,13 +233,17 @@ codeunit 50102 "B2 Poste API"
             //jsonReturnInfoL.add('returnService', jsonNullValue);
             //jsonReturnInfoL.add('customerIDReturnAddress', jsonNullValue);
 
-            jsonItemL.Add('itemID', '000000000001');
+            jsonItemL.Add('itemID', Format(parcelNo));
             jsonItemL.Add('recipient', jsonRecipientL);
             jsonItemL.Add('attributes', jsonAttributesL);
 
 
+            if (languageCodeL <> '') and (strLen(languageCodeL) > 2) then
+                languageCodeL := languageCodeL.Substring(1, 2)
+            else
+                languageCodeL := 'FR';
 
-            jsonBodyL.Add('language', 'FR');
+            jsonBodyL.Add('language', languageCodeL);
             jsonBodyL.Add('frankingLicense', shippingAgentL."Franking Licence");
             jsonBodyL.Add('customer', jsonCustomerL);
             jsonBodyL.Add('customerSystem', jsonNullValue);
@@ -297,6 +304,7 @@ codeunit 50102 "B2 Poste API"
         salesShipmentHeaderTL: record "Sales Shipment Header" temporary;
         serviceShipmentHeaderL: record "Service Shipment Header";
         serviceShipmentHeaderTL: record "Service Shipment Header" temporary;
+        additionalPackageL: record "B2 Additional Package";
         oStreamL: OutStream;
     begin
 
@@ -309,7 +317,19 @@ codeunit 50102 "B2 Poste API"
             modifySalesShipmentHeader(salesShipmentHeaderTL);
         end;
 
+        if recRefP.Number = Database::"B2 Additional Package" then begin
+            recRefP.setTable(additionalPackageL);
+            clear(oStreamL);
+            additionalPackageL.Label.CreateOutStream(oStreamL);
+            oStreamL.Write(image64P);
+            additionalPackageL."Package Tracking No." := identCodeP;
+            additionalPackageL.Modify();
+        end;
+
+
     end;
+
+
 
 
     procedure addressValidation(var clientIdP: Text; var secretIdP: Text; var CustomerP: record Customer): Text;
@@ -397,35 +417,65 @@ codeunit 50102 "B2 Poste API"
 
     procedure generateAddressLabel(var recRefP: RecordRef): Text;
     var
-        tokenL: text;
-        urlL: text;
         resultL: text;
-
-        jsonTokenL: JsonToken;
-        jsonLabelTokenL: JsonToken;
-        jsonIdentTokenL: JsonToken;
-        jsonTextL: Text;
-        jsonResponseL: JsonObject;
-        jsonValueL: JsonValue;
+        ResponseL: HttpResponseMessage;
 
         image64L: text;
         identCodeL: text;
 
-        RequestL: HttpRequestMessage;
-        requestHeadersL: HttpHeaders;
-        ResponseL: HttpResponseMessage;
-        ContentL: HttpContent;
-        ContentHeadersL: HttpHeaders;
-        ClientL: HttpClient;
         SuccessL: Boolean;
 
-        clientIDL: text;
-        secretIDL: Text;
-
-        recRefDictionaryL: Dictionary of [text, text];
+        additionalPackageL: record "B2 Additional Package";
+        recRefL: RecordRef;
+        fieldRefL: FieldRef;
 
     begin
 
+        successL := callApi(recRefP, 1, responseL);
+
+        if SuccessL and ResponseL.IsSuccessStatusCode then begin
+            ResponseL.Content.ReadAs(ResultL);
+            if resultL <> '' then begin
+                decodeAddressLabel(ResultL, identCodeL, image64L);
+                if (image64L <> '') and (identCodeL <> '') then validateTracking(recRefP, image64L, identCodeL);
+            end;
+        end;
+
+
+        fieldRefL := recRefP.Field(3);
+        additionalPackageL.Reset();
+        additionalPackageL.SetRange("Shipment Header No.", fieldRefL.Value);
+
+        if additionalPackageL.FindSet() then
+            repeat
+                successL := callApi(recRefP, additionalPackageL."Line No." + 1, responseL);
+
+                if SuccessL and ResponseL.IsSuccessStatusCode then begin
+                    ResponseL.Content.ReadAs(ResultL);
+                    if resultL <> '' then begin
+                        recRefL.GetTable(additionalPackageL);
+                        decodeAddressLabel(ResultL, identCodeL, image64L);
+                        if (image64L <> '') and (identCodeL <> '') then validateTracking(recRefL, image64L, identCodeL);
+                    end;
+                end;
+            until additionalPackageL.Next() = 0;
+    end;
+
+    local procedure callApi(var recRefP: RecordRef; parcelNoP: integer; var responseP: HttpResponseMessage): Boolean;
+    var
+        tokenL: text;
+        jsonTextL: Text;
+        urlL: text;
+        RequestL: HttpRequestMessage;
+        requestHeadersL: HttpHeaders;
+
+        ContentL: HttpContent;
+        ContentHeadersL: HttpHeaders;
+        ClientL: HttpClient;
+        recRefDictionaryL: Dictionary of [text, text];
+        clientIDL: text;
+        secretIDL: Text;
+    begin
         recRefDictionaryL := getClientSecretFromRecRef(recRefP);
 
         if recRefDictionaryL.ContainsKey('clientId') then
@@ -436,7 +486,7 @@ codeunit 50102 "B2 Poste API"
 
         tokenL := getBearerToken(clientIDL, secretIDL, 'DCAPI_BARCODE_READ');
 
-        jsonTextL := generateAddressLabelJson(recRefP);
+        jsonTextL := generateAddressLabelJson(recRefP, parcelNoP);
 
         urlL := 'https://dcapi.apis.post.ch/barcode/v1/generateAddressLabel';
 
@@ -453,231 +503,39 @@ codeunit 50102 "B2 Poste API"
 
         RequestL.Content := contentL;
 
-        successL := ClientL.Send(RequestL, ResponseL);
+        Exit(ClientL.Send(RequestL, ResponseP));
 
-        if SuccessL and ResponseL.IsSuccessStatusCode then begin
-            ResponseL.Content.ReadAs(ResultL);
-
-            if resultL <> '' then begin
-                jsonResponseL.ReadFrom(resultL);
-
-                if jsonResponseL.get('item', jsonTokenL) then begin
-                    if jsonTokenL.AsObject().get('label', jsonLabelTokenL) then begin
-                        jsonLabelTokenL.WriteTo(image64L);
-                        image64L := image64L.Substring(3, strLen(image64L) - 4);
-                        //cropImage(image64L);
-
-                    end;
-                    if jsonTokenL.AsObject().get('identCode', jsonIdentTokenL) then
-                        if jsonIdentTokenL.IsValue then begin
-                            jsonValueL := jsonIdentTokenL.AsValue();
-                            identCodeL := jsonValueL.AsText();
-                        end;
-                end;
-
-                if (image64L <> '') and (identCodeL <> '') then validateTracking(recRefP, image64L, identCodeL);
-
-            end;
-
-
-        end;
     end;
 
-    /*
-             "language": "FR",
-    "frankingLicense": "60048724",
-    "ppFranking": false,
-    "customer": {
-        "name1": "Muster AG",
-        "name2": "Logistik",
-        "street": "Musterstrasse 19",
-        "zip": "8112",
-        "city": "Otelfingen",
-        "country": "CH",
-        "logoRotation": 0,
-        "domicilePostOffice": "8112 Otelfingen"
-    },
-    "customerSystem": null,
-    "labelDefinition": {
-        "labelLayout": "A6",
-        "printAddresses": "RECIPIENT_AND_CUSTOMER",
-        "imageFileType": "ZPL2",
-        "imageResolution": 300,
-        "printPreview": true
-    },
-    "item": {
-        "itemID": "00000000001000727746",
-        "recipient": {
-            "title": "Frau",
-            "name1": "Serena Muster",
-            "street": "Teststrasse 11",
-            "mailboxNo": null,
-            "zip": "9000",
-            "city": "St.Gallen",
-            "country": "CH",
-            "houseKey": "24",
-            "email": "test@test.test"
-        },
-        "attributes": {
-            "przl": [
-                "PRI"
-            ],
-            "deliveryDate": null,
-            "returnInfo": {
-                "returnNote": false,
-                "instructionForReturns": false,
-                "returnService": null,
-                "customerIDReturnAddress": null
-            },
-            "weight": 1
-        }
-    }
-
-    */
-
-    /*
-        HttpClient httpClient = _clientFactory.CreateClient("Authentication");
-
-    // Create query string with parameters
-    var queryString = new StringBuilder();
-    queryString.Append("?UN=").Append(Uri.EscapeDataString("aa"));
-    queryString.Append("&AP=").Append(Uri.EscapeDataString("bb"));
-
-    // Append query string to base URL
-    string requestUrl = "/auth" + queryString;
-
-    // Send GET request
-    var response = await httpClient.GetAsync(requestUrl);
-    */
-
-
-
-    /*
-            procedure callRestApiForBinary(queryP: text; var fileInStreamP: InStream; filenameP: text): text;
+    local procedure decodeAddressLabel(var resultP: text; var identCodeL: text; var image64P: text)
     var
-        TempBlob: Codeunit "Temp Blob";
-        PayloadOutStream: OutStream;
-        PayLoadInStream: InStream;
-
-        Client: HttpClient;
-        Response: HttpResponseMessage;
-        ContentL: HttpContent;
-        ContentHeaders: HttpHeaders;
-        Request: HttpRequestMessage;
-        RequestHeaders: HttpHeaders;
-
-
-        Url: Text;
-        resultL: text;
-
-        mondaySetupL: record "ERPS MON Setup";
-
-        mapL: text;
-
-        successL: Boolean;
-        HttpStatusCodeL: Integer;
-
-        newLine: Text;
-        CR: Char;
-        LF: Char;
-
-        itemL: record Item;
-        TenantMedialL: record "Tenant Media";
-
-
+        jsonResponseL: JsonObject;
+        jsonValueL: JsonValue;
+        jsonTokenL: JsonToken;
+        jsonLabelTokenL: JsonToken;
+        jsonIdentTokenL: JsonToken;
     begin
+        if resultP <> '' then begin
+            jsonResponseL.ReadFrom(resultP);
 
-        CR := 13;
-        LF := 10;
+            if jsonResponseL.get('item', jsonTokenL) then begin
+                if jsonTokenL.AsObject().get('label', jsonLabelTokenL) then begin
+                    jsonLabelTokenL.WriteTo(image64P);
+                    image64P := image64P.Substring(3, strLen(image64P) - 4);
+                    //cropImage(image64L);
 
-        newLine := format(CR) + Format(LF);
-
-        //queryL := 'mutation add_file($file: File!) {add_file_to_column (item_id: 7076890908, column_id:"fichier6__1" file: $file) {id}}';
-        mapL := '{"image":"variables.file"}';
-
-
-
-        resultL := '';
-
-
-        if mondaySetupL.Get() then begin
-
-            Url := mondaySetupL."API Url" + '/file';
-
-            TempBlob.CreateOutStream(PayloadOutStream, TextEncoding::Windows);
-            PayloadOutStream.WriteText('--123456' + newLine);
-            PayloadOutStream.WriteText('Content-Disposition: form-data; name="query"' + newLine);
-            PayloadOutStream.WriteText('Content-Type: application/json' + newLine);
-            PayloadOutStream.WriteText(newLine);
-            PayloadOutStream.WriteText(queryP + newLine);
-            PayloadOutStream.WriteText(newLine);
-
-            PayloadOutStream.WriteText('--123456' + newLine);
-            PayloadOutStream.WriteText('Content-Disposition: form-data; name="map"' + newLine);
-            PayloadOutStream.WriteText('Content-Type: application/json' + newLine);
-            PayloadOutStream.WriteText(newLine);
-            PayloadOutStream.WriteText(mapL + newLine);
-            PayloadOutStream.WriteText(newLine);
-
-            PayloadOutStream.WriteText('--123456' + newLine);
-            PayloadOutStream.WriteText('Content-Disposition: form-data; name="image"; filename="' + filenameP + '"' + newLine);
-            PayloadOutStream.WriteText('Content-Type: application/octet-stream' + newLine);
-            payloadOutStream.WriteText('Content-Transfer-Encoding: binary' + newLine);
-            PayloadOutStream.WriteText(newLine);
-            System.CopyStream(PayloadOutStream, fileInStreamP);
-            PayloadOutStream.WriteText(newLine);
-            PayloadOutStream.WriteText('--123456--' + newLine);
-
-            TempBlob.CreateInStream(PayLoadInStream, TextEncoding::Windows);
-            ContentL.WriteFrom(PayloadInStream);
-
-
-            // Get Content Headers
-            contentL.GetHeaders(ContentHeaders);
-
-            // update the content header information and define the boundary    
-            if ContentHeaders.Contains('Content-Type') then ContentHeaders.Remove('Content-Type');
-            ContentHeaders.Add('Content-Type', 'multipart/form-data; boundary="123456"');
-
-            // Setup the URL
-            request.SetRequestUri(url);
-
-            // Setup the HTTP Verb
-            request.Method := 'POST';
-
-            // Add some request headers like:
-            request.GetHeaders(RequestHeaders);
-            requestHeaders.Add('Authorization', mondaySetupL."API Key");
-
-            // Set the content
-            request.Content := contentL;
-
-
-            successL := client.Send(Request, Response);
-
-            Response.Content().ReadAs(resultL);
-
-            //successL := Client.Post(url, ContentL, Response);
-
-            if not successL then begin
-                // handle the error
-                Message('Error Success');
+                end;
+                if jsonTokenL.AsObject().get('identCode', jsonIdentTokenL) then
+                    if jsonIdentTokenL.IsValue then begin
+                        jsonValueL := jsonIdentTokenL.AsValue();
+                        identCodeL := jsonValueL.AsText();
+                    end;
             end;
-
-            if not Response.IsSuccessStatusCode() then begin
-                HttpStatusCodeL := response.HttpStatusCode();
-                // handle the error (depending on the HTTP status code)
-                Message('Response Status: ' + format(HttpStatusCodeL) + queryP);
-            end;
-
-
 
         end;
-        exit(resultL);
     end;
 
 
 
-    */
 
 }

@@ -35,8 +35,9 @@ tableextension 50102 "B2 Shipping Agent Ext" extends "Shipping Agent"
             InitValue = 'A7';
         }
 
-        field(50106;"BESO"; boolean) {
-            
+        field(50106; "BESO"; boolean)
+        {
+            caption = 'BESO';
         }
     }
 }

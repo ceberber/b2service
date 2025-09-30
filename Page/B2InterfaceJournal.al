@@ -134,6 +134,25 @@ page 50103 "B2 Interface Journal"
                 end;
 
             }
+
+            group(reading)
+            {
+                caption = 'Read';
+                action(ReadShipment)
+                {
+                    caption = 'Read Shipment';
+                    image = Import;
+                    ApplicationArea = all;
+                    trigger OnAction()
+                    var
+                        proInterfaceL: Codeunit "B2 Pro Interface";
+                    begin
+
+                        proInterfaceL.readShipment();
+
+                    end;
+                }
+            }
         }
     }
 }

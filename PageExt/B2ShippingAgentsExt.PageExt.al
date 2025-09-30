@@ -43,7 +43,8 @@ pageextension 50101 "B2 Shipping Agents Ext" extends "Shipping Agents"
 
             field(BESO; rec.BESO)
             {
-
+                ApplicationArea = all;
+                ToolTip = 'Show BESO info', Comment = 'FRS="Affiche les info BESO",DES""';
             }
         }
     }

@@ -392,6 +392,38 @@ codeunit 50101 "B2 Pro Interface"
 
     end;
 
+    procedure readShipment()
+    var
+
+        salesShipmentL: record "Sales Shipment Header";
+        nbrParcelL: integer;
+    begin
+        nbrParcelL := 3;
+        if salesShipmentL.Get('102735') then begin
+            if nbrParcelL > 1 then generateAdditionalParcel(salesShipmentL, nbrParcelL);
+        end;
+
+
+    end;
+
+    local procedure generateAdditionalParcel(var salesShipmentHeaderP: record "Sales Shipment Header"; var nbrParcelP: integer)
+    var
+        additionalPackageL: Record "B2 Additional Package";
+        i: integer;
+    begin
+        for i := 1 to nbrParcelP - 1 do begin
+            if not additionalPackageL.get(salesShipmentHeaderP."No.", i) then begin
+                additionalPackageL.Init();
+                additionalPackageL."Shipment Header No." := salesShipmentHeaderP."No.";
+                additionalPackageL."Line No." := i;
+                additionalPackageL."Shipping Agent Code" := salesShipmentHeaderP."Shipping Agent Code";
+                additionalPackageL.Insert(true);
+            end;
+        end;
+
+
+    end;
+
 
 
 
